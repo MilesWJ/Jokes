@@ -3,28 +3,33 @@ import json
 
 
 class Joke(object):
-    def __init__(self, setup, punchline):
+    def __init__(self, setup, punchline, url, json_data):
         self.setup = setup
         self.punchline = punchline
+        self.url = url
+        self.json_data = json_data
 
 
-def get_joke():
+def request_joke():
+    Joke.url = "https://official-joke-api.appspot.com/random_joke"
+    r = request.urlopen(Joke.url)
+
+    data = r.read()
+    Joke.json_data = json.loads(data)
+
+    Joke.setup = Joke.json_data["setup"]
+    Joke.punchline = Joke.json_data["punchline"]
+
+    print(Joke.setup, Joke.punchline)
+
+
+def display_joke():
     while True:
 
         ask = str(input("\nWould you like to hear a joke? ")).lower()
 
         if "yes" in ask:
-
-            url = "https://official-joke-api.appspot.com/random_joke"
-            r = request.urlopen(url)
-
-            data = r.read()
-            json_data = json.loads(data)
-
-            Joke.setup = json_data["setup"]
-            Joke.punchline = json_data["punchline"]
-
-            print(Joke.setup, Joke.punchline)
+            request_joke()
             continue
 
         elif "no" in ask:
@@ -36,4 +41,4 @@ def get_joke():
             continue
 
 
-get_joke()
+display_joke()
