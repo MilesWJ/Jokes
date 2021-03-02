@@ -20,16 +20,16 @@ def request_joke():
     Joke.setup = Joke.json_data["setup"]
     Joke.punchline = Joke.json_data["punchline"]
 
-    print(Joke.setup, Joke.punchline)
-
 
 def display_joke():
+
     while True:
 
-        ask = str(input("\nWould you like to hear a joke? ")).lower()
+        ask = str(input(f"\nWould you like to hear a joke? ")).lower()
 
         if "yes" in ask:
             request_joke()
+            print(Joke.setup, Joke.punchline)
             continue
 
         elif "no" in ask:
